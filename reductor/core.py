@@ -3,8 +3,8 @@ from io import open
 
 try:
     for index_archivo in range(100):
-        archivo = open("../instanciasSAT/"+str(index_archivo+1)+".cnf","r")
-        archivo_escrito = open("../instanciasMiniZinc/"+str(index_archivo+1)+".mzn","w")
+        archivo = open("./instanciasSAT/"+str(index_archivo+1)+".cnf","r")
+        archivo_escrito = open("./instanciasMiniZinc/"+str(index_archivo+1)+".mzn","w")
         for linea in map(lambda x: x.strip(), archivo.readlines()):
             if len(linea) > 0:
                 if linea[0] == 'p':
