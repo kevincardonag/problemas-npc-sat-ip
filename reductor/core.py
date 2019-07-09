@@ -15,9 +15,9 @@ def ls(ruta = getcwd()):
 
 
 try:
-    for nombre_archivo in ls('../instanciasSAT/'):
-        archivo = open("../instanciasSAT/" + nombre_archivo + ".cnf", "r")
-        archivo_escrito = open("../instanciasMiniZinc/" + nombre_archivo + ".mzn", "w")
+    for nombre_archivo in ls('./instanciasSAT/'):
+        archivo = open("./instanciasSAT/" + nombre_archivo + ".cnf", "r")
+        archivo_escrito = open("./instanciasMiniZinc/" + nombre_archivo + ".mzn", "w")
         for linea in map(lambda x: x.strip(), archivo.readlines()):
             if len(linea) > 0:
                 if linea[0] == 'p':
