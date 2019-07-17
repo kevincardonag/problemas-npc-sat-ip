@@ -2,7 +2,6 @@ import os
 import time
 
 
-
 def get_files():
     DIR = "./instanciasSAT/"
     names_files = [name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name)) and name != '__init__.py']
@@ -34,6 +33,7 @@ def convert_sat_to_ip():
                                     restriccion += "n_x[" + valor_real + "] + "
                                 else:
                                     restriccion += "x[" + str(valor_clausula) + "] + "
+
                             restriccion = restriccion[0:len(restriccion)-3]
                             restriccion += " >= 1;\n"
                             archivo_escrito.write(restriccion)
@@ -42,6 +42,7 @@ def convert_sat_to_ip():
 
     except Exception as error:
         print(error)
+
 
 start_time = time.time()
 convert_sat_to_ip()
