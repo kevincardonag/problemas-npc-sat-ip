@@ -1,8 +1,9 @@
 import os
 from io import open
 
+
 def get_files():
-    DIR = "../instanciasSAT/"
+    DIR = "./instanciasSAT/"
     names_files = [name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name)) and name != '__init__.py']
     return names_files
 
@@ -12,7 +13,7 @@ def convert_sat_to_ip():
 
         for nombre_archivo in get_files():
             name_file = nombre_archivo.split('.')
-            with open("../instanciasSAT/" + nombre_archivo, "r") as archivo, open("../instanciasMiniZinc/" + name_file[0] + ".mzn", "w") as archivo_escrito:
+            with open("./instanciasSAT/" + nombre_archivo, "r") as archivo, open("./instanciasMiniZinc/" + name_file[0] + ".mzn", "w") as archivo_escrito:
                 for linea in map(lambda x: x.strip(), archivo.readlines()):
                     if linea:
                         if linea[0] == 'p':
