@@ -1,5 +1,6 @@
 import os
-from io import open
+import time
+
 
 
 def get_files():
@@ -10,7 +11,6 @@ def get_files():
 
 def convert_sat_to_ip():
     try:
-
         for nombre_archivo in get_files():
             name_file = nombre_archivo.split('.')
             with open("./instanciasSAT/" + nombre_archivo, "r") as archivo, open("./instanciasMiniZinc/" + name_file[0] + ".mzn", "w") as archivo_escrito:
@@ -19,26 +19,21 @@ def convert_sat_to_ip():
                         if linea[0] == 'p':
                             list_problem = linea.split()
                             num_variables = int(list_problem[2])
-                            for data in range(num_variables*2):
-                                if data >= num_variables:
-                                    archivo_escrito.write("var 0..1: n_x_" + str(data-(num_variables-1))+";\n")
-                                else:
-                                    archivo_escrito.write("var 0..1: x_" + str(data+1)+";\n")
 
-                            for data in range(num_variables):
-                                archivo_escrito.write("constraint x_" + str(data+1) + " + n_x_" + str(data+1) + " = 1;\n")
+                            archivo_escrito.write("array[1.. " + str(num_variables) + "] of var 0..1: x;" + "\n")
+                            archivo_escrito.write("array[1.. " + str(num_variables) + "] of var 0..1: n_x;" + "\n")
+                            archivo_escrito.write("constraint forall(i in 1.." + str(num_variables) + ")(x[i] + n_x[i] = 1);" + "\n")
 
                         if linea[0] != 'c' and linea[0] != 'p':
                             lista_vars = linea.split()
-                            longitud_clausula = len(lista_vars)-1
                             restriccion = "constraint "
                             for i in range(len(lista_vars)-1):
                                 valor_clausula = int(lista_vars[i])
                                 if valor_clausula < 0:
                                     valor_real = str(abs(valor_clausula))
-                                    restriccion += "n_x_" + valor_real + " + "
+                                    restriccion += "n_x[" + valor_real + "] + "
                                 else:
-                                    restriccion += "x_" + str(valor_clausula) + " + "
+                                    restriccion += "x[" + str(valor_clausula) + "] + "
                             restriccion = restriccion[0:len(restriccion)-3]
                             restriccion += " >= 1;\n"
                             archivo_escrito.write(restriccion)
@@ -48,7 +43,7 @@ def convert_sat_to_ip():
     except Exception as error:
         print(error)
 
-
-
-
+start_time = time.time()
 convert_sat_to_ip()
+duration = time.time() - start_time
+print("Tiempo en segundos: " , duration)
