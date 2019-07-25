@@ -15,6 +15,7 @@ def convert_sat_to_ip():
             with open("./instanciasSAT/" + nombre_archivo, "r") as archivo, open("./instanciasMiniZinc/" + name_file[0] + ".mzn", "w") as archivo_escrito:
                 for linea in map(lambda x: x.strip(), archivo.readlines()):
                     if linea:
+                    	
                         if linea[0] == 'p':
                             list_problem = linea.split()
                             num_variables = int(list_problem[2])
